@@ -45,5 +45,17 @@ def add_to_group(group_name, code):
     return "succeed"
 
 
+@app.route('/group/<group_name>/codes', methods=['POST'])
+def batch_to_group(group_name):
+    codes = request.args.getlist('codes')
+    for code in codes:
+        try:
+            em.add_to_group(code, group_name=group_name)
+        except Exception as e:
+            print(e)
+            return "failed"
+    return "succeed"
+
+
 if __name__ == '__main__':
     app.run(port=8080)
